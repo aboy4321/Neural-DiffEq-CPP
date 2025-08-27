@@ -11,6 +11,7 @@ class Linear{
     public:
         Linear(){}
         Linear(int input_size, int output_size, double learning_rate);
+
         vector<double> forward(const vector<double> &input);
         vector<double> backprop(const vector<double> &grad);
 };
@@ -18,16 +19,17 @@ Linear::Linear(int input_size, int output_size, double learning_rate){
     output_dim = output_size;
     input_dim = input_size;
     eta = learning_rate;
-    
+
+    weight.resize(output_dim); 
     for(int o = 0; o < output_size; o++){
         weights.push_back(vector<double>());
         for(int i = 0; i < input_size + 1; i++){
-            weights.back().push_back((double)rand() / RAND_MAX);
+            weights.back().push_back((double)rand() / RAND_MAX - 0.5);
         }
     }
 }
 vector<double> Linear::forward(const vector<double> &input){
-    output_vals = vector<double>();
+    output_vals.assign(output_dim, 0.0); 
     input_vals = input;
 
     for(int = 0; o < input_dim; o++){
