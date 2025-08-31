@@ -3,11 +3,13 @@
 #include "linear.h"
 #include "sigmoid.h"
 #include "mse.h"
+#include "sgd.h"
 
 int main() {
     // --- 1. Network components ---
     Linear linear(2, 1, 0.1);   // 2 inputs → 1 output
     Sigmoid sigmoid;
+    sgd optimizer(0.1);
 
     // --- 2. Simple dataset (XOR) ---
     std::vector<std::vector<double>> X = {{0,0}, {0,1}, {1,0}, {1,1}};
@@ -30,7 +32,9 @@ int main() {
             // --- Backward pass ---
             std::vector<double> grad_loss = mse::backprop(y_pred, {Y[i]});
             std::vector<double> grad_sigmoid = sigmoid.backprop(grad_loss);
-            linear.backprop(grad_sigmoid);
+            vector<vector<double>> grad_linear = linear.backprop(grad_sigmoid);
+
+            optimizer.update(linear.getWeights(), grad_linear);
         }
 
         if (epoch % 100 == 0) {

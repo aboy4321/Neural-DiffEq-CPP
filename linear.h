@@ -11,7 +11,7 @@ class Linear{
     public:
         Linear(){}
         Linear(int input_size, int output_size, double learning_rate);
-
+        vector<vector<double>>& getWeights() { return weights; }
         vector<double> forward(const vector<double> &input);
         vector<double> backprop(const vector<double> &grad);
 };
