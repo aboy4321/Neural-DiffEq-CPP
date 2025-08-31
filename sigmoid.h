@@ -1,25 +1,34 @@
-#include <iostream>
+#ifndef SIGMOID_H
+#define SIGMOID_H
+
 #include <vector>
 #include <cmath>
-using namespace std;
 
-class Sigmoid{
-    private:
-        vector<double> output_vals;
-    public:
-        Sigmoid(){}
-        vector<double> feed(const vector<double>& input);
-};  
-vector<double> Sigmoid::feed(const vector<double>& input){
-    output_vals.resize(input.size());
-    for(int i = 0; i < input.size(); i++){
-        output_vals[i] = 1.0 / (1.0 + exp(-input[i]));
+class Sigmoid {
+private:
+    std::vector<double> output_vals;  // stores last forward pass outputs
+
+public:
+    Sigmoid() {}
+
+    // Forward pass: returns activated outputs
+    std::vector<double> forward(const std::vector<double>& input) {
+        output_vals.resize(input.size());
+        for (size_t i = 0; i < input.size(); i++) {
+            output_vals[i] = 1.0 / (1.0 + std::exp(-input[i]));
+        }
+        return output_vals;
     }
-    return output_vals;
-}
-vector<double> Sigmoid::backprop(vector<double>& grad){
-    for(int o = 0; o < output_vals.size(); o++){
-        grad[o] *= output_vals[o] * (1.0 - output_vals[o]);
+
+    // Backward pass: returns gradient w.r.t. input
+    std::vector<double> backprop(const std::vector<double>& grad_output) {
+        std::vector<double> grad_input(grad_output.size());
+        for (size_t i = 0; i < grad_output.size(); i++) {
+            grad_input[i] = grad_output[i] * output_vals[i] * (1.0 - output_vals[i]);
+        }
+        return grad_input;
     }
-    return grad;
 };
+
+#endif // SIGMOID_H
+

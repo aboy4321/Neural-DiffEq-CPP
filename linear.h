@@ -20,25 +20,25 @@ Linear::Linear(int input_size, int output_size, double learning_rate){
     input_dim = input_size;
     eta = learning_rate;
 
-    weight.resize(output_dim); 
+    weights.resize(output_dim); 
     for(int o = 0; o < output_size; o++){
-        weights.push_back(vector<double>());
+        weights[o].resize(input_dim + 1);
         for(int i = 0; i < input_size + 1; i++){
-            weights.back().push_back((double)rand() / RAND_MAX - 0.5);
+            weights[o][i] = (double)rand() / RAND_MAX - 0.5;
         }
     }
 }
 vector<double> Linear::forward(const vector<double> &input){
-    output_vals.assign(output_dim, 0.0); 
+    output_vals.resize(output_dim); 
     input_vals = input;
 
-    for(int = 0; o < input_dim; o++){
+    for(int o = 0; o < output_dim; o++){
         double sum = 0.0;
         for(int w = 0; w < input_dim; w++){
             sum += weights[o][w] * input[w];
         }
         sum += weights[o][input_dim];
-        output_vals.push_back(sum);
+        output_vals[o] = sum;
     }
     return output_vals;
 }

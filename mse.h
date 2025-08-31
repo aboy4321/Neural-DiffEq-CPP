@@ -8,7 +8,7 @@ using namespace std;
 
 class mse {
     public:
-        static double feed(const vector<double>& y_pred, 
+        static double forward(const vector<double>& y_pred, 
                            const vector<double>& y_true){
             double loss = 0.0;
             for(int i = 0; i < y_pred.size(); i++){
